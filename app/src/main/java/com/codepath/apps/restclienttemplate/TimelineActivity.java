@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +22,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+
+import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 
 public class TimelineActivity extends AppCompatActivity {
 
@@ -46,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         client = TwitterApp.getRestClient();
+        LinearLayoutManager lmTweet = new LinearLayoutManager(getContext());
 
         // find recycler view
         rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
@@ -74,6 +78,11 @@ public class TimelineActivity extends AppCompatActivity {
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(R.color.twitter_logo_blue,
                 R.color.twitter_verified_blue);
+
+        // adding lines between views
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(),
+                lmTweet.getOrientation());
+        rvTweets.addItemDecoration(mDividerItemDecoration);
     }
 
     public void onComposeAction(MenuItem mi) {
