@@ -35,6 +35,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -51,6 +52,7 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient();
         LinearLayoutManager lmTweet = new LinearLayoutManager(getContext());
 
+        getSupportActionBar().setTitle("Home");
         // find recycler view
         rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
         // init the arrayList (data source)
@@ -83,6 +85,7 @@ public class TimelineActivity extends AppCompatActivity {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(rvTweets.getContext(),
                 lmTweet.getOrientation());
         rvTweets.addItemDecoration(mDividerItemDecoration);
+
     }
 
     public void onComposeAction(MenuItem mi) {

@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin"
-    android:layout_marginLeft="@dimen/margin">
+    android:layout_margin="5dp"
+    tools:context="com.codepath.apps.restclienttemplate.TweetDetails">
 
     <ImageView
         android:id="@+id/ivProfileImageD"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="5dp"
         app:srcCompat="@android:color/black" />
 
     <TextView
-        android:id="@+id/tvTimeStamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
         android:id="@+id/tvUserNameD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivProfileImageD"
         android:text="TextView"
-        android:textStyle="bold" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/ivProfileImageD" />
 
     <TextView
         android:id="@+id/tvScreenNameD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvUserNameD"
+        android:text="TextView"
+        android:textSize="18sp"
         android:layout_below="@+id/tvUserNameD"
-        android:text="TextView" />
+        android:layout_toEndOf="@+id/ivProfileImageD" />
 
     <TextView
         android:id="@+id/tvBodyD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvScreenNameD"
-        android:layout_below="@+id/tvScreenNameD"
-        android:text="TextView" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivProfileImageD"
+        android:text="TextView"
+        android:textSize="20sp"
+        android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:id="@+id/ivReply"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+    <TextView
+        android:id="@+id/tvTimeStampD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tvBodyD"
-        app:srcCompat="@drawable/reply" />
+        android:text="TextView"
+        android:textSize="18sp" />
 
 </RelativeLayout>
