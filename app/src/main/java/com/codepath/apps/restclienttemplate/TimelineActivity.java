@@ -101,6 +101,12 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
+        } else {
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            Log.i("sendTweet", tweet.body);
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
         }
     }
 

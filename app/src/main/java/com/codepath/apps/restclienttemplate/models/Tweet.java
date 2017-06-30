@@ -31,4 +31,8 @@ public class Tweet {
 
         return tweet;
     }
+
+    public long getUid() {
+        return uid;
+    }
 }

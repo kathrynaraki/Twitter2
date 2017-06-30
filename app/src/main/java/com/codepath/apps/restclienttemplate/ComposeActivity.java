@@ -28,6 +28,7 @@ public class ComposeActivity extends AppCompatActivity {
     TextView tvAt;
     Boolean reply;
     String atName;
+    long uid;
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,6 +48,7 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
         client = TwitterApp.getRestClient();
+        reply = false;
         tvCharCount = (TextView) findViewById(R.id.tvCharCount);
         etTweetText = (EditText) findViewById(R.id.etTweetText);
         tvAt = (TextView) findViewById(R.id.tvAt);
@@ -57,6 +59,8 @@ public class ComposeActivity extends AppCompatActivity {
             Tweet tweet;
             tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
             atName = "@" + tweet.user.screenName + " ";
+            uid = tweet.getUid();
+            reply = true;
         }
 
         tvAt.setText(atName);
@@ -72,29 +76,56 @@ public class ComposeActivity extends AppCompatActivity {
 
     public void onSubmit(View v) {
         etTweetText = (EditText) findViewById(R.id.etTweetText);
-
-        client.sendTweet(atName + etTweetText.getText().toString(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Tweet tweet = null;
-                try {
-                    tweet = Tweet.fromJSON(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if(!reply) {
+            client.sendTweet(etTweetText.getText().toString(), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("tweet", Parcels.wrap(tweet));
+                    setResult(RESULT_OK, data);
+                    // Activity finished ok, return the data
+                    // setResult(RESULT_OK, data); // set result code and bundle data for response
+                    finish(); // closes the activity, pass data to parent
                 }
-                Intent data = new Intent();
-                // Pass relevant data back as a result
-                data.putExtra("tweet", Parcels.wrap(tweet));
-                // Activity finished ok, return the data
-                setResult(RESULT_OK, data); // set result code and bundle data for response
-                finish(); // closes the activity, pass data to parent
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.e("MySimpleTweet", "Failed to send a tweet" + errorResponse.toString());
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("MySimpleTweet", "Failed to send a tweet" + errorResponse.toString());
+                }
+            });
+        } else {
+            client.replyTweet(atName + etTweetText.getText().toString(), uid, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Intent data = new Intent();
+                    // Pass relevant data back as a result
+                    data.putExtra("tweet", Parcels.wrap(tweet));
+                    setResult(21, data);
+                    // Activity finished ok, return the data
+                    // setResult(RESULT_OK, data); // set result code and bundle data for response
+                    finish(); // closes the activity, pass data to parent
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.e("MySimpleTweet", "Failed to send a tweet" + errorResponse.toString());
+                }
+            });
+        }
+
 
     }
 
