@@ -25,6 +25,9 @@ public class ComposeActivity extends AppCompatActivity {
     TwitterClient client;
     TextView tvCharCount;
     EditText etTweetText;
+    TextView tvAt;
+    Boolean reply;
+    String atName;
 
     private final TextWatcher mTextEditorWatcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,7 +49,17 @@ public class ComposeActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient();
         tvCharCount = (TextView) findViewById(R.id.tvCharCount);
         etTweetText = (EditText) findViewById(R.id.etTweetText);
+        tvAt = (TextView) findViewById(R.id.tvAt);
 
+        atName = "";
+
+        if (getIntent().getExtras() != null){
+            Tweet tweet;
+            tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
+            atName = "@" + tweet.user.screenName + " ";
+        }
+
+        tvAt.setText(atName);
         btnTweet = (Button) findViewById(R.id.btnTweet);
         btnTweet.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -60,7 +73,7 @@ public class ComposeActivity extends AppCompatActivity {
     public void onSubmit(View v) {
         etTweetText = (EditText) findViewById(R.id.etTweetText);
 
-        client.sendTweet(etTweetText.getText().toString(), new JsonHttpResponseHandler() {
+        client.sendTweet(atName + etTweetText.getText().toString(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Tweet tweet = null;

@@ -32,7 +32,6 @@ public class TimelineActivity extends AppCompatActivity {
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
-
     private SwipeRefreshLayout swipeContainer;
 
 

@@ -78,6 +78,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvScreenName;
         public TextView tvTimeStamp;
         public ImageView ivReply;
+        private final int REQUEST_CODE = 20;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,7 +92,21 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
 
             itemView.setOnClickListener(this);
+
+            ivReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Tweet tweet = mTweets.get(position);
+
+                    Intent i = new Intent(context, ComposeActivity.class);
+                    i.putExtra("tweet", Parcels.wrap(tweet));
+
+                    ((TimelineActivity)context).startActivityForResult(i, REQUEST_CODE);
+                }
+            });
         }
+
 
         @Override
         public void onClick(View v) {
