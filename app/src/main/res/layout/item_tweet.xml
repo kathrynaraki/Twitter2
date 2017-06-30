@@ -54,6 +54,7 @@
         android:layout_height="20dp"
         android:layout_alignLeft="@id/tvBodyD"
         android:layout_below="@+id/tvBodyD"
-        app:srcCompat="@drawable/reply" />
+        app:srcCompat="@drawable/reply"
+        android:tint="@color/twitter_logo_blue"/>
 
 </RelativeLayout>
