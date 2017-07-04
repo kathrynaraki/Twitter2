@@ -3,11 +3,18 @@
      such as `res/menu/menu_movies.xml`  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
+        <item
         android:id="@+id/miCompose"
         android:icon="@drawable/vector_compose_fab"
         android:onClick="onComposeAction"
         app:showAsAction="ifRoom"
         android:title="Compose">
     </item>
+
+    <item
+        android:id="@+id/miProfile"
+        android:icon="@drawable/ic_profile_vector"
+        android:title="Profile"
+        app:showAsAction="ifRoom"
+        android:onClick="onProfileView"></item>
 </menu>
