@@ -1,13 +1,11 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.fragments.TweetsListFragment;
 import com.codepath.apps.restclienttemplate.fragments.TweetsPagerAdapter;
@@ -70,14 +68,14 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onComposeAction(MenuItem mi) {
-        Intent i = new Intent(this, ComposeActivity.class);
-        startActivityForResult(i, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Reply
+//    public void onComposeAction(MenuItem mi) {
+//        Intent i = new Intent(this, ComposeActivity.class);
+//        startActivityForResult(i, REQUEST_CODE);
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // TODO Reply
 //        // REQUEST_CODE is defined above
 //        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
 //            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
@@ -92,7 +90,7 @@ public class TimelineActivity extends AppCompatActivity {
 //            tweetAdapter.notifyItemInserted(0);
 //            rvTweets.scrollToPosition(0);
 //        }
-    }
+//    }
 
     public void fetchTimelineAsync(int page) {
         // Send the network request to fetch the updated data
@@ -118,10 +116,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    public void onProfileView(MenuItem item) {
-        // launch profile view
-        Intent i = new Intent(this, ProfileActivity.class);
-        startActivity(i);
-    }
+//    public void onProfileView(MenuItem item) {
+//        // launch profile view
+//        Intent i = new Intent(this, ProfileActivity.class);
+//        startActivity(i);
+//    }
 
 }
