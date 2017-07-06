@@ -48,6 +48,7 @@ public class TweetsListFragment extends Fragment implements SwipeRefreshLayout.O
     SwipeRefreshLayout swipeLayout;
     TwitterClient client;
     String name;
+    String screenName;
 
     private final int REQUEST_CODE = 20;
 
@@ -169,7 +170,7 @@ public class TweetsListFragment extends Fragment implements SwipeRefreshLayout.O
                 }
             });
         } else {
-            client.getUserTimeline(null, new JsonHttpResponseHandler(){
+            client.getUserTimeline(screenName, new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     // Remember to CLEAR OUT old items before appending in the new ones

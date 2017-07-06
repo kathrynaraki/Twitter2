@@ -8,24 +8,28 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.fragments.UserTimelineFragment;
+import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
 
     TwitterClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        String screenName = getIntent().getStringExtra("screen_name");
+        final Tweet tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
         // create user fragment
+        final String screenName = tweet.user.screenName;
         UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
         // display user timeline fragment inside container dynamically
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -42,7 +46,12 @@ public class ProfileActivity extends AppCompatActivity {
                 // deserialize user object
                 User user = null;
                 try {
-                    user = User.fromJSON(response);
+                    if (screenName.equals("")) {
+                        user = User.fromJSON(response);
+                    } else {
+                        user = tweet.user;
+                    }
+
                     getSupportActionBar().setTitle(user.screenName);
 
                     // populate user headline

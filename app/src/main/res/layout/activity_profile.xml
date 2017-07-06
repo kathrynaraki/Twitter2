@@ -48,7 +48,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvFollowers"
-            android:text="5 Followers"/>
+            android:text="5 Followers"
+            android:layout_marginRight="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"

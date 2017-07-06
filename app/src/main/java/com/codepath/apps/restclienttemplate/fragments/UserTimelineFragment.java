@@ -19,7 +19,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class UserTimelineFragment extends TweetsListFragment {
     private TwitterClient client;
-
+    private String screenName;
     public static UserTimelineFragment newInstance(String screenName) {
         UserTimelineFragment userTimelineFragment = new UserTimelineFragment();
         Bundle args = new Bundle();
@@ -31,14 +31,17 @@ public class UserTimelineFragment extends TweetsListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApp.getRestClient();
+        // comes from the activity
+        screenName = getArguments().getString("screen_name");
+
+        super.screenName = screenName;
         super.name = "user";
 
         populateTimeline();
     }
 
     private void populateTimeline() {
-        // comes from the activity
-        String screenName = getArguments().getString("screen_name");
+
         client.getUserTimeline(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
