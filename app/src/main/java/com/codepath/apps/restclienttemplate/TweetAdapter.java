@@ -92,54 +92,39 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
 
             itemView.setOnClickListener(this);
-
-            ivReply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Tweet tweet = mTweets.get(position);
-
-                    Intent i = new Intent(context, ComposeActivity.class);
-                    i.putExtra("tweet", Parcels.wrap(tweet));
-
-                    ((TimelineActivity)context).startActivityForResult(i, REQUEST_CODE);
-                }
-            });
-
-            ivProfileImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    // make sure the position is valid, i.e. actually exists in the view
-                    if (position != RecyclerView.NO_POSITION) {
-                        // get the movie at the position, this won't work if the class is static
-                        Tweet tweet = mTweets.get(position);
-                        // create intent for the new activity
-                        Intent i = new Intent(context, ProfileActivity.class);
-                        // serialize the movie using parceler, use its short name as a key
-                        i.putExtra("tweet", Parcels.wrap(tweet));
-                        // show the activity
-                        context.startActivity(i);
-                    }
-                }
-            });
+            ivReply.setOnClickListener(this);
+            ivProfileImage.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
-            // gets item position
             int position = getAdapterPosition();
-            // make sure the position is valid, i.e. actually exists in the view
+            Tweet tweet = mTweets.get(position);
+            //long id = v.getId();
             if (position != RecyclerView.NO_POSITION) {
-                // get the movie at the position, this won't work if the class is static
-                Tweet tweet = mTweets.get(position);
-                // create intent for the new activity
-                Intent intent = new Intent(context, TweetDetails.class);
-                // serialize the movie using parceler, use its short name as a key
-                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
-                // show the activity
-                context.startActivity(intent);
+                if (v.getId() == R.id.ivReply) {
+                    Intent i = new Intent(context, ComposeActivity.class);
+                    i.putExtra("tweet", Parcels.wrap(tweet));
+
+                    ((TimelineActivity)context).startActivityForResult(i, REQUEST_CODE);
+                } else if (v.getId() == R.id.ivProfileImage) {
+                    // create intent for the new activity
+                    Intent i = new Intent(context, ProfileActivity.class);
+                    // serialize the movie using parceler, use its short name as a key
+                    i.putExtra("tweet", Parcels.wrap(tweet));
+                    // show the activity
+                    context.startActivity(i);
+                } else {
+                    // create intent for the new activity
+                    Intent intent = new Intent(context, TweetDetails.class);
+                    // serialize the movie using parceler, use its short name as a key
+                    intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                    // show the activity
+                    context.startActivity(intent);
+                }
+
+
             }
         }
 
