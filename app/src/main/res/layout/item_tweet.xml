@@ -55,8 +55,8 @@
         android:layout_below="@id/tvBodyD">
         <ImageView
             android:id="@+id/ivReply"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_below="@id/tvBodyD"
             app:srcCompat="@drawable/reply"
             android:layout_marginRight="80dp"
@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/ivFavorite"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_below="@+id/tvBodyD"
             android:layout_toStartOf="@+id/tvBodyD"
             app:srcCompat="@drawable/ic_vector_heart" />

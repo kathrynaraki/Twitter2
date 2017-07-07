@@ -5,4 +5,5 @@
     <color name="twitter_verified_blue">#1dcaff</color>
     <color name="twitter_background_blue">#c0deed</color>
     <color name="icon_grey">#9AAAB5</color>
+    <color name="bright_red">#ff0000</color>
 </resources>

@@ -2,7 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -52,6 +52,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         client = TwitterApp.getRestClient();
         return viewHolder;
+
     }
 
     // bind values based on position of element
@@ -66,9 +67,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvScreenName.setText("@" + tweet.user.screenName);
         holder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.createdAt));
         if(tweet.favorited) {
-            holder.ivFavorite.setColorFilter(Color.RED);
+            holder.ivFavorite.setColorFilter(ContextCompat.getColor(context, R.color.bright_red));
         } else {
-            holder.ivFavorite.setColorFilter(R.color.icon_grey);
+            holder.ivFavorite.setColorFilter(ContextCompat.getColor(context, R.color.icon_grey));
         }
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
@@ -135,12 +136,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     context.startActivity(i);
                 } else if (v.getId() == R.id.ivFavorite) {
                     if (!tweet.favorited) {
-                        tweet.favorited = true;
                         client.favoriteTweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                //ivFavorite.setImageDrawable(context.getResources().getDrawable(R.drawable.reply));
-                                ivFavorite.setColorFilter(Color.RED);
+                                ivFavorite.setColorFilter(ContextCompat.getColor(context, R.color.bright_red));
                             }
 
                             @Override
@@ -149,11 +148,10 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                             }
                         });
                     } else {
-                        tweet.favorited = false;
                         client.unFavoriteTweet(tweet.uid, new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                                ivFavorite.setColorFilter(R.color.icon_grey);
+                                ivFavorite.setColorFilter(ContextCompat.getColor(context, R.color.icon_grey));
                             }
 
                             @Override
