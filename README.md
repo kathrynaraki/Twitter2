@@ -61,7 +61,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://github.com/kathrynaraki/MySimpleTweets/blob/master/twitter1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/kathrynaraki/Twitter2/blob/master/Twitter2%20Walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [Quicktime](http://www.quicktime.com).
 
