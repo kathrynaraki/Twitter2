@@ -2,8 +2,10 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +14,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by arakik on 6/26/17.
@@ -29,6 +35,7 @@ import java.util.Locale;
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
     Context context;
     private List<Tweet> mTweets;
+    TwitterClient client;
 
     // pass in Tweets array in constructor
     public TweetAdapter(List<Tweet> tweets) {
@@ -42,6 +49,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         LayoutInflater inflater = LayoutInflater.from(context);
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
         ViewHolder viewHolder = new ViewHolder(tweetView);
+
+        client = TwitterApp.getRestClient();
         return viewHolder;
     }
 
@@ -56,6 +65,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvBody.setText(tweet.body);
         holder.tvScreenName.setText("@" + tweet.user.screenName);
         holder.tvTimeStamp.setText(getRelativeTimeAgo(tweet.createdAt));
+        if(tweet.favorited) {
+            holder.ivFavorite.setColorFilter(Color.RED);
+        } else {
+            holder.ivFavorite.setColorFilter(R.color.icon_grey);
+        }
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
@@ -78,6 +92,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvScreenName;
         public TextView tvTimeStamp;
         public ImageView ivReply;
+        public ImageView ivFavorite;
+
         private final int REQUEST_CODE = 20;
 
         public ViewHolder(View itemView) {
@@ -90,10 +106,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvScreenName = (TextView) itemView.findViewById(R.id.tvScreenNameD);
             tvTimeStamp = (TextView) itemView.findViewById(R.id.tvTimeStamp);
             ivReply = (ImageView) itemView.findViewById(R.id.ivReply);
+            ivFavorite = (ImageView) itemView.findViewById(R.id.ivFavorite);
 
             itemView.setOnClickListener(this);
             ivReply.setOnClickListener(this);
             ivProfileImage.setOnClickListener(this);
+            ivFavorite.setOnClickListener(this);
         }
 
 
@@ -108,13 +126,43 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     i.putExtra("tweet", Parcels.wrap(tweet));
 
                     ((TimelineActivity)context).startActivityForResult(i, REQUEST_CODE);
-                } else if (v.getId() == R.id.ivProfileImage) {
+                } else if (v.getId() == R.id.ivProfileImageD) {
                     // create intent for the new activity
                     Intent i = new Intent(context, ProfileActivity.class);
                     // serialize the movie using parceler, use its short name as a key
                     i.putExtra("tweet", Parcels.wrap(tweet));
                     // show the activity
                     context.startActivity(i);
+                } else if (v.getId() == R.id.ivFavorite) {
+                    if (!tweet.favorited) {
+                        tweet.favorited = true;
+                        client.favoriteTweet(tweet.uid, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                //ivFavorite.setImageDrawable(context.getResources().getDrawable(R.drawable.reply));
+                                ivFavorite.setColorFilter(Color.RED);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Log.e("MySimpleTweet", "Failed to favorite a tweet" + errorResponse.toString());
+                            }
+                        });
+                    } else {
+                        tweet.favorited = false;
+                        client.unFavoriteTweet(tweet.uid, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                ivFavorite.setColorFilter(R.color.icon_grey);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Log.e("MySimpleTweet", "Failed to unfavorite a tweet" + errorResponse.toString());
+                            }
+                        });
+                    }
+
                 } else {
                     // create intent for the new activity
                     Intent intent = new Intent(context, TweetDetails.class);

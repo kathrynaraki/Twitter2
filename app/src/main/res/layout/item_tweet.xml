@@ -46,14 +46,30 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvScreenNameD"
         android:layout_below="@+id/tvScreenNameD"
-        android:text="TextView" />
+        android:text="TextView"
+        android:layout_alignParentEnd="true" />
 
-    <ImageView
-        android:id="@+id/ivReply"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignLeft="@id/tvBodyD"
-        android:layout_below="@+id/tvBodyD"
-        app:srcCompat="@drawable/reply"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvBodyD">
+        <ImageView
+            android:id="@+id/ivReply"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@id/tvBodyD"
+            app:srcCompat="@drawable/reply"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="48dp"/>
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/tvBodyD"
+            android:layout_toStartOf="@+id/tvBodyD"
+            app:srcCompat="@drawable/ic_vector_heart" />
+    </LinearLayout>
+
 
 </RelativeLayout>

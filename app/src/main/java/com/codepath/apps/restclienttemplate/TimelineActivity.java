@@ -3,8 +3,8 @@ package com.codepath.apps.restclienttemplate;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 
 import com.codepath.apps.restclienttemplate.fragments.TweetsListFragment;
@@ -14,7 +14,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     private final int REQUEST_CODE = 20;
 
-    private SwipeRefreshLayout swipeContainer;
 
     TweetsListFragment fragmentTweetsList;
 
@@ -23,6 +22,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         // LinearLayoutManager lmTweet = new LinearLayoutManager(getContext());
 
         // get view pager

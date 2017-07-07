@@ -13,6 +13,7 @@ public class Tweet {
     public String body;
     public long uid;
     public String createdAt;
+    public boolean favorited;
 
     // We can also include child Parcelable objects. Assume MySubParcel is such a Parcelable:
     public User user;

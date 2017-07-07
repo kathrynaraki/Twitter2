@@ -21,6 +21,7 @@ import cz.msebera.android.httpclient.Header;
 public class ProfileActivity extends AppCompatActivity {
 
     TwitterClient client;
+    String screenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,12 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         final Tweet tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
+        screenName = "";
         // create user fragment
-        final String screenName = tweet.user.screenName;
+        if (tweet != null) {
+            screenName = tweet.user.screenName;
+        }
+
         UserTimelineFragment userTimelineFragment = UserTimelineFragment.newInstance(screenName);
         // display user timeline fragment inside container dynamically
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
